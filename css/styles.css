@@ -30,25 +30,110 @@ body {
 .nav {
   display: flex;
   justify-content: space-between;
-  padding: 22px 8vw;
+  padding: 18px 8vw;
   align-items: center;
   position: sticky;
   top: 0;
-  background: rgba(11,12,16,0.9);
-  backdrop-filter: blur(8px);
-  z-index: 10;
+  background: linear-gradient(135deg, rgba(11,12,16,0.95), rgba(16,20,28,0.95));
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+  border-bottom: 1px solid rgba(0, 174, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-.nav .logo { font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px; }
+.nav .logo { 
+  font-weight: 700; 
+  font-size: 1.3rem; 
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #00aeff, #00ff88);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: transform 0.3s ease;
+}
+
+.nav .logo:hover {
+  transform: scale(1.05);
+}
+
+.nav nav {
+  display: flex;
+  gap: 8px;
+}
 
 .nav a {
   color: var(--fg);
   text-decoration: none;
-  margin-left: 16px;
-  opacity: 0.7;
-  transition: opacity 0.2s;
+  padding: 10px 18px;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  position: relative;
+  font-weight: 500;
+  font-size: 0.95rem;
 }
-.nav a:hover, .nav a.active { opacity: 1; }
+
+.nav a::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #00aeff, #00ff88);
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+
+.nav a:hover {
+  opacity: 1;
+  background: rgba(0, 174, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.nav a:hover::before {
+  width: 70%;
+}
+
+.nav a.active { 
+  opacity: 1;
+  background: linear-gradient(135deg, rgba(0, 174, 255, 0.15), rgba(0, 255, 136, 0.1));
+  box-shadow: 0 0 15px rgba(0, 174, 255, 0.3);
+}
+
+.nav a.active::before {
+  width: 70%;
+}
+
+/* Mobile menu toggle */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+  padding: 8px;
+}
+
+.menu-toggle span {
+  width: 25px;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* Hamburger menu animation - transforms bars into X shape when active */
+.menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(8px, 8px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
 
 .hero {
   display: grid;
@@ -58,29 +143,104 @@ body {
   align-items: center;
 }
 
-.hero h1 { font-size: 3rem; margin-bottom: 16px; }
+.hero h1 { 
+  font-size: 3rem; 
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #ffffff, #00aeff, #00ff88);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 8s ease infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .hero h1 {
+    animation: none;
+    background-position: 0% 50%;
+  }
+}
+
+.section-title h2 {
+  background: linear-gradient(135deg, #ffffff, #00aeff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 .lead { color: var(--muted); margin-bottom: 24px; }
 
 .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
 
 .button {
-  background: var(--accent);
-  color: #000;
-  padding: 12px 22px;
+  background: linear-gradient(135deg, var(--accent), #0088cc);
+  color: #fff;
+  padding: 13px 26px;
   border-radius: 30px;
   text-decoration: none;
   font-weight: 600;
   border: 1px solid transparent;
+  box-shadow: 0 4px 15px rgba(0, 174, 255, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
+
+.button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.button:hover::before {
+  width: 200%;
+  height: 200%;
+}
+
+.button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(0, 174, 255, 0.5);
+}
+
+.button:active {
+  transform: translateY(-1px);
+}
+
 .button.outline {
   background: transparent;
   border-color: var(--accent);
   color: var(--accent);
+  box-shadow: 0 4px 15px rgba(0, 174, 255, 0.2);
 }
+
+.button.outline:hover {
+  background: rgba(0, 174, 255, 0.1);
+  box-shadow: 0 6px 25px rgba(0, 174, 255, 0.4);
+}
+
 .button.ghost {
   background: transparent;
   border-color: #3a3f48;
   color: var(--fg);
+  box-shadow: 0 4px 15px rgba(58, 63, 72, 0.2);
+}
+
+.button.ghost:hover {
+  background: rgba(58, 63, 72, 0.3);
+  border-color: #5a5f68;
+  box-shadow: 0 6px 25px rgba(58, 63, 72, 0.4);
 }
 
 .hero-visual {
@@ -123,7 +283,38 @@ body {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 20px;
+  padding: 24px;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before, .team-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 174, 255, 0.05), rgba(0, 255, 136, 0.05));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.card:hover, .team-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 174, 255, 0.2);
+  border-color: rgba(0, 174, 255, 0.3);
+}
+
+.card:hover::before, .team-card:hover::before {
+  opacity: 1;
+}
+
+.card h3, .team-card h3 {
+  position: relative;
+  z-index: 1;
 }
 
 .metrics {
@@ -216,10 +407,138 @@ input, textarea {
 
 .footer { padding: 30px 8vw 50px; color: var(--muted); }
 
-.reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
-.reveal.is-visible { opacity: 1; transform: translateY(0); }
+.reveal { 
+  opacity: 0; 
+  transform: translateY(30px); 
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal.is-visible { 
+  opacity: 1; 
+  transform: translateY(0);
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 @media (max-width: 980px) {
   .hero { grid-template-columns: 1fr; }
   .highlights, .metrics, .team-grid, .chart-grid { grid-template-columns: 1fr; }
+  
+  .nav nav {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: rgba(11, 12, 16, 0.98);
+    backdrop-filter: blur(12px);
+    flex-direction: column;
+    padding: 20px;
+    gap: 0;
+    transform: translateY(-120%);
+    transition: transform 0.3s ease;
+    border-bottom: 1px solid rgba(0, 174, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+  
+  .nav nav.mobile-open {
+    transform: translateY(0);
+  }
+  
+  .nav a {
+    padding: 15px 20px;
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  .menu-toggle {
+    display: flex;
+  }
+  
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Loading animation */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.metric-value {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .metric-value {
+    animation: none;
+  }
+}
+
+/* Add pulsing effect to CTA buttons */
+@keyframes button-pulse {
+  0% {
+    box-shadow: 0 4px 15px rgba(0, 174, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 25px rgba(0, 174, 255, 0.5);
+  }
+  100% {
+    box-shadow: 0 4px 15px rgba(0, 174, 255, 0.3);
+  }
+}
+
+.cta-row .button:first-child {
+  animation: button-pulse 3s ease-in-out infinite;
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .cta-row .button:first-child {
+    animation: none;
+  }
+}
+
+/* Enhanced metrics animation */
+.metric {
+  transition: all 0.3s ease;
+}
+
+.metric:hover {
+  transform: scale(1.05);
+  border-color: rgba(0, 174, 255, 0.4);
+  box-shadow: 0 8px 25px rgba(0, 174, 255, 0.2);
+}
+
+/* Page load animation */
+@keyframes page-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+body {
+  animation: page-fade-in 0.5s ease-in;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    animation: none;
+  }
 }
