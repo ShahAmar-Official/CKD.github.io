@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Results — CKD ECG Analysis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Results and performance metrics for CKD ECG classification models." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <div class="logo">CKD ECG</div>
+    <nav aria-label="Primary navigation">
+      <a href="index.html">Home</a>
+      <a href="research.html">Research</a>
+      <a href="results.html" class="active">Results</a>
+      <a href="dataset.html">Dataset</a>
+      <a href="publications.html">Publications</a>
+      <a href="team.html">Team</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero reveal">
+      <h1>Results</h1>
+      <p class="lead">Model performance summary and evaluation metrics.</p>
+    </section>
+
+    <section class="content reveal">
+      <h2>Performance Summary</h2>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Accuracy</th>
+            <th>Precision</th>
+            <th>Recall</th>
+            <th>F1-Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Random Forest</td>
+            <td>94%</td>
+            <td>93%</td>
+            <td>92%</td>
+            <td>92%</td>
+          </tr>
+          <tr>
+            <td>SVM</td>
+            <td>91%</td>
+            <td>90%</td>
+            <td>89%</td>
+            <td>89%</td>
+          </tr>
+          <tr>
+            <td>Logistic Regression</td>
+            <td>88%</td>
+            <td>87%</td>
+            <td>86%</td>
+            <td>86%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="chart-grid">
+        <div class="chart-card">
+          <h3>Accuracy by Model</h3>
+          <canvas id="accuracyChart" aria-label="Accuracy chart"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Confusion Matrix (Best Model)</h3>
+          <canvas id="confusionChart" aria-label="Confusion matrix chart"></canvas>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 Shah Amar — CKD ECG Research</p>
+  </footer>
+
+  <script src="js/results-charts.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
