@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CKD ECG Analysis — Shah Amar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="CKD analysis using ECG signal. Research by Shah Amar using WEKA and CKD ML Repository data." />
+  <meta property="og:title" content="CKD ECG Analysis — Shah Amar" />
+  <meta property="og:description" content="Research website for CKD analysis using ECG signals, WEKA, and CKD ML Repository data." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "name": "CKD Analysis Using ECG Signal",
+    "author": {
+      "@type": "Person",
+      "name": "Shah Amar"
+    },
+    "about": "Chronic Kidney Disease, ECG signal analysis, machine learning",
+    "datePublished": "2026-02-10",
+    "publisher": "Shah Amar Research"
+  }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <div class="logo">CKD ECG</div>
+    <nav aria-label="Primary navigation">
+      <a href="index.html" class="active">Home</a>
+      <a href="research.html">Research</a>
+      <a href="results.html">Results</a>
+      <a href="dataset.html">Dataset</a>
+      <a href="publications.html">Publications</a>
+      <a href="team.html">Team</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero reveal">
+      <div class="hero-text">
+        <h1>CKD Analysis Using ECG Signal</h1>
+        <p class="lead">
+          A research website by Shah Amar. The analysis was conducted using WEKA,
+          leveraging data from the CKD ML Repository to investigate ECG-derived indicators
+          for Chronic Kidney Disease.
+        </p>
+        <div class="cta-row">
+          <a href="research.html" class="button">View Research</a>
+          <a href="results.html" class="button outline">View Results</a>
+          <a href="assets/ckd-paper.pdf" class="button ghost">Download Paper</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="canvas-wrap" id="heart-canvas" aria-label="3D heart visualization"></div>
+        <p class="caption">3D Heart Model</p>
+      </div>
+    </section>
+
+    <section class="ecg-section reveal">
+      <div class="section-title">
+        <h2>3D ECG Signal Visualization</h2>
+        <p>Illustrative ECG waveform rendered in 3D space.</p>
+      </div>
+      <div class="canvas-wrap large" id="ecg-canvas" aria-label="3D ECG waveform"></div>
+    </section>
+
+    <section class="highlights reveal">
+      <div class="card">
+        <h3>Method</h3>
+        <p>Feature extraction from ECG signals, then classification with WEKA.</p>
+      </div>
+      <div class="card">
+        <h3>Tools</h3>
+        <p>WEKA for ML analysis and results validation.</p>
+      </div>
+      <div class="card">
+        <h3>Data</h3>
+        <p>CKD ML Repository dataset used for training and evaluation.</p>
+      </div>
+    </section>
+
+    <section class="metrics reveal">
+      <div class="metric">
+        <div class="metric-value" data-count="94">0</div>
+        <div class="metric-label">Best Accuracy (%)</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value" data-count="12">0</div>
+        <div class="metric-label">ECG Features Evaluated</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value" data-count="5">0</div>
+        <div class="metric-label">Models Compared</div>
+      </div>
+    </section>
+
+    <section class="section-divider"></section>
+
+    <section class="content reveal">
+      <h2>Why ECG for CKD?</h2>
+      <p>
+        ECG signals can reflect systemic changes linked to renal function.
+        This project explores subtle waveform patterns as early indicators of CKD,
+        offering a non-invasive and scalable screening approach.
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 Shah Amar — CKD ECG Research</p>
+  </footer>
+
+  <script src="js/scene-heart.js"></script>
+  <script src="js/scene-ecg.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

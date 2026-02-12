@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Research — CKD ECG Analysis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Research overview, methodology, timeline, outcomes, and future work for CKD ECG analysis." />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <div class="logo">CKD ECG</div>
+    <nav aria-label="Primary navigation">
+      <a href="index.html">Home</a>
+      <a href="research.html" class="active">Research</a>
+      <a href="results.html">Results</a>
+      <a href="dataset.html">Dataset</a>
+      <a href="publications.html">Publications</a>
+      <a href="team.html">Team</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero reveal">
+      <h1>Research Overview</h1>
+      <p class="lead">
+        This research explores how ECG-derived indicators can assist in early detection
+        and risk stratification of Chronic Kidney Disease (CKD). Conducted by Shah Amar,
+        the study leverages supervised learning in WEKA and structured data from the CKD ML Repository.
+      </p>
+    </section>
+
+    <section class="content reveal">
+      <h2>Methodology</h2>
+      <p>
+        The workflow begins with ECG feature engineering, extracting time-domain and morphology-based
+        metrics relevant to cardiac rhythm and waveform stability. These features are standardized
+        and mapped to CKD-related labels from the dataset.
+      </p>
+      <p>
+        Multiple classifiers in WEKA are evaluated, with emphasis on interpretability and
+        generalization performance across folds. Evaluation includes accuracy, precision,
+        recall, F1-score, and confusion matrices.
+      </p>
+
+      <h2>Timeline</h2>
+      <ul class="timeline">
+        <li><strong>Phase 1:</strong> Dataset acquisition and preprocessing</li>
+        <li><strong>Phase 2:</strong> ECG feature extraction and normalization</li>
+        <li><strong>Phase 3:</strong> Model training and cross-validation in WEKA</li>
+        <li><strong>Phase 4:</strong> Result analysis and marker reporting</li>
+        <li><strong>Phase 5:</strong> Visualization and dissemination</li>
+      </ul>
+
+      <h2>Outcomes</h2>
+      <p>
+        ECG-derived features provide meaningful signals for CKD classification.
+        Waveform irregularities and rhythm-based features showed higher importance
+        across evaluated models.
+      </p>
+
+      <h2>Future Work</h2>
+      <p>
+        Planned expansions include signal-level deep learning, multi-modal biomarker integration,
+        and validation on larger cohorts. Real-time monitoring and cloud-based analytics are also planned.
+      </p>
+
+      <h2>Collaboration</h2>
+      <p>
+        Collaboration is welcome with researchers, clinicians, and data scientists
+        working on biosignal analysis or healthcare AI. Visit the Contact page to connect.
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 Shah Amar — CKD ECG Research</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
