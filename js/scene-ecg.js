@@ -20,13 +20,22 @@ if (ecgContainer) {
   let { width, height } = resizeCanvas();
 
   // ECG parameters
-  const heartRate = 72; // BPM
-  const cycleDuration = 60 / heartRate; // seconds per beat
+  let heartRate = 72; // BPM - will vary realistically
+  const baseHeartRate = 72; // Base heart rate
+  let cycleDuration = 60 / heartRate; // seconds per beat
   const gridSize = 20; // pixels per grid square
   const waveformColor = '#00ff88';
   const glowColor = 'rgba(0, 255, 136, 0.6)';
   const backgroundColor = '#0a0d12';
   const gridColor = 'rgba(0, 255, 136, 0.12)';
+  
+  // Heart rate variability parameters
+  let hrvTime = 0;
+  const hrvFrequency = 0.1; // Slow variation frequency
+  const hrvAmplitude = 5; // BPM variation range (±5 BPM)
+  
+  // Waveform amplitude variation
+  let amplitudeVariation = 1.0;
   
   // Waveform history buffer
   let waveformHistory = [];
@@ -42,7 +51,7 @@ if (ecgContainer) {
     // Normalize time to cardiac cycle (0-1)
     const cycleTime = (t % cycleDuration) / cycleDuration;
     const baselineY = height / 2;
-    const scale = height * 0.25;
+    const scale = height * 0.25 * amplitudeVariation; // Apply amplitude variation
     
     // P wave (atrial depolarization) - 0.08-0.18
     if (cycleTime >= 0.08 && cycleTime < 0.18) {
@@ -162,6 +171,17 @@ if (ecgContainer) {
     const deltaTime = (currentTime - lastTime) / 1000; // seconds
     lastTime = currentTime;
     time += deltaTime;
+    hrvTime += deltaTime;
+    
+    // Update heart rate variability (realistic breathing-related variation)
+    // Uses a combination of slow sine waves to simulate natural HRV
+    const hrv1 = Math.sin(hrvTime * hrvFrequency * 2 * Math.PI) * hrvAmplitude;
+    const hrv2 = Math.sin(hrvTime * hrvFrequency * 0.5 * Math.PI) * (hrvAmplitude * 0.3);
+    heartRate = baseHeartRate + hrv1 + hrv2;
+    cycleDuration = 60 / heartRate;
+    
+    // Update amplitude variation (simulate respiratory influence)
+    amplitudeVariation = 1.0 + Math.sin(hrvTime * 0.15 * 2 * Math.PI) * 0.08;
     
     // Pulse intensity for cinematic effect
     pulseIntensity = Math.sin(time * 3) * 0.3 + 0.7;
@@ -257,7 +277,7 @@ if (ecgContainer) {
     ctx.shadowColor = waveformColor;
     ctx.fillStyle = waveformColor;
     ctx.font = 'bold 28px monospace';
-    ctx.fillText(`${heartRate} BPM`, 20, 45);
+    ctx.fillText(`${Math.round(heartRate)} BPM`, 20, 45);
     
     // Draw pulsing indicator dot
     ctx.beginPath();
