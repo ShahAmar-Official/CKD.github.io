@@ -35,7 +35,7 @@ if (heartContainer) {
   controls.enableDamping = true;
   controls.dampingFactor = 0.05;
   controls.enableZoom = true;
-  controls.enablePan = false;
+  controls.enablePan = true;
   controls.autoRotate = true;
   controls.autoRotateSpeed = 1.0;
 

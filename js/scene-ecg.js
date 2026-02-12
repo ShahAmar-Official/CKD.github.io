@@ -31,7 +31,7 @@ if (ecgContainer) {
   const gridColor = 'rgba(0, 255, 136, 0.12)';
   
   // Waveform history buffer
-  const historyLength = Math.ceil(width * 1.5);
+  let historyLength = Math.ceil(width * 1.5);
   let waveformHistory = new Array(historyLength).fill(height / 2);
   let sweepX = 0;
   let time = 0;
@@ -190,7 +190,7 @@ if (ecgContainer) {
     ctx.beginPath();
     
     for (let i = 0; i < width; i++) {
-      const historyIdx = (historyLength - width + i + startIdx) % historyLength;
+      const historyIdx = (waveformHistory.length - width + i + startIdx) % waveformHistory.length;
       const x = i;
       const y = waveformHistory[historyIdx];
       
@@ -210,7 +210,7 @@ if (ecgContainer) {
     ctx.beginPath();
     
     for (let i = 0; i < width; i++) {
-      const historyIdx = (historyLength - width + i + startIdx) % historyLength;
+      const historyIdx = (waveformHistory.length - width + i + startIdx) % waveformHistory.length;
       const x = i;
       const y = waveformHistory[historyIdx];
       
@@ -254,6 +254,7 @@ if (ecgContainer) {
     const size = resizeCanvas();
     width = size.width;
     height = size.height;
-    waveformHistory = new Array(Math.ceil(width * 1.5)).fill(height / 2);
+    historyLength = Math.ceil(width * 1.5);
+    waveformHistory = new Array(historyLength).fill(height / 2);
   });
 }
