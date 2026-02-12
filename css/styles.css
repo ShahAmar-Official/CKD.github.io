@@ -565,30 +565,6 @@ body {
   }
 }
 
-/* 3D Rotating Border Effect */
-@keyframes rotate-border {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.hero-visual::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg, #00aeff, #00ff88, #00aeff);
-  border-radius: 22px;
-  z-index: -1;
-  animation: rotate-border 4s linear infinite;
-  opacity: 0.3;
-}
-
 .hero-visual {
   position: relative;
   transform-style: preserve-3d;
@@ -809,8 +785,7 @@ main {
   details,
   .timeline li,
   main,
-  body::before,
-  .hero-visual::before {
+  body::before {
     animation: none !important;
   }
   
@@ -855,26 +830,25 @@ main {
   cursor: pointer;
   opacity: 0;
   visibility: hidden;
-  transform: scale(0) translateZ(0);
-  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform: scale(0);
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
   z-index: 1000;
   box-shadow: 0 4px 20px rgba(0, 174, 255, 0.4);
-  transform-style: preserve-3d;
 }
 
 .back-to-top.visible {
   opacity: 1;
   visibility: visible;
-  transform: scale(1) translateZ(0);
+  transform: scale(1);
 }
 
 .back-to-top:hover {
-  transform: scale(1.15) translateZ(20px) rotateZ(360deg);
+  transform: scale(1.1);
   box-shadow: 0 6px 30px rgba(0, 174, 255, 0.7);
 }
 
 .back-to-top:active {
-  transform: scale(0.95) translateZ(10px);
+  transform: scale(0.95);
 }
 
 /* Loading Screen */
