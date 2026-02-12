@@ -1,0 +1,123 @@
+// Form submission handler for contact form
+const CONTACT_EMAIL = 'itsshahamar@duck.com';
+
+class FormHandler {
+  constructor() {
+    this.form = document.querySelector('.contact-form');
+    if (this.form) {
+      this.init();
+    }
+  }
+  
+  init() {
+    // Remove the default onsubmit handler
+    this.form.removeAttribute('onsubmit');
+    this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+  }
+  
+  async handleSubmit(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this.form);
+    const submitButton = this.form.querySelector('button[type="submit"]');
+    const originalText = submitButton.textContent;
+    
+    // Validate form
+    if (!this.validateForm(formData)) {
+      return;
+    }
+    
+    // Disable button and show loading state
+    submitButton.disabled = true;
+    submitButton.textContent = 'Sending...';
+    submitButton.classList.add('loading');
+    
+    try {
+      // Submit to Web3Forms
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        this.showNotification('Thank you! Your message has been sent successfully. We will get back to you soon.', 'success');
+        this.form.reset();
+      } else {
+        throw new Error(data.message || 'Submission failed');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      this.showNotification(`Sorry, there was an error sending your message. Please try again or contact us directly at ${CONTACT_EMAIL}`, 'error');
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = originalText;
+      submitButton.classList.remove('loading');
+    }
+  }
+  
+  validateForm(formData) {
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const message = formData.get('message');
+    
+    if (!name || name.trim().length < 2) {
+      this.showNotification('Please enter your name (at least 2 characters)', 'error');
+      return false;
+    }
+    
+    if (!email || !this.isValidEmail(email)) {
+      this.showNotification('Please enter a valid email address', 'error');
+      return false;
+    }
+    
+    if (!message || message.trim().length < 10) {
+      this.showNotification('Please enter a message (at least 10 characters)', 'error');
+      return false;
+    }
+    
+    return true;
+  }
+  
+  isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+  
+  showNotification(message, type) {
+    // Remove any existing notifications
+    const existingNotification = document.querySelector('.form-notification');
+    if (existingNotification) {
+      existingNotification.remove();
+    }
+    
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `form-notification ${type}`;
+    notification.innerHTML = `
+      <div class="notification-content">
+        <span class="notification-icon">${type === 'success' ? '✓' : '✕'}</span>
+        <span class="notification-message">${message}</span>
+      </div>
+    `;
+    
+    // Insert before form
+    this.form.parentNode.insertBefore(notification, this.form);
+    
+    // Animate in
+    setTimeout(() => notification.classList.add('show'), 10);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+      notification.classList.remove('show');
+      setTimeout(() => notification.remove(), 300);
+    }, 5000);
+  }
+}
+
+// Initialize form handler when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => new FormHandler());
+} else {
+  new FormHandler();
+}

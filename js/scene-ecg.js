@@ -154,6 +154,7 @@ if (ecgContainer) {
   
   // Animation loop
   let lastTime = performance.now();
+  let pulseIntensity = 0;
   
   function animate(currentTime) {
     requestAnimationFrame(animate);
@@ -161,6 +162,9 @@ if (ecgContainer) {
     const deltaTime = (currentTime - lastTime) / 1000; // seconds
     lastTime = currentTime;
     time += deltaTime;
+    
+    // Pulse intensity for cinematic effect
+    pulseIntensity = Math.sin(time * 3) * 0.3 + 0.7;
     
     // Generate new waveform value and add to history
     const currentValue = generateECGValue(time);
@@ -171,22 +175,45 @@ if (ecgContainer) {
       waveformHistory.shift();
     }
     
-    // Clear canvas
-    ctx.fillStyle = backgroundColor;
+    // Clear canvas with subtle gradient
+    const gradient = ctx.createLinearGradient(0, 0, 0, height);
+    gradient.addColorStop(0, '#0a0d12');
+    gradient.addColorStop(0.5, '#0c0f15');
+    gradient.addColorStop(1, '#0a0d12');
+    ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
     
     // Draw grid
     drawGrid();
     
-    // Draw waveform with glow effect
+    // Draw waveform with enhanced glow effect
     if (waveformHistory.length > 1) {
       // Calculate starting x position to ensure non-negative coordinates
       const startX = Math.max(0, width - waveformHistory.length);
       
-      // Draw glow (phosphor afterglow effect)
-      ctx.strokeStyle = glowColor;
+      // Draw outer glow (phosphor afterglow effect)
+      ctx.strokeStyle = `rgba(0, 255, 136, ${0.15 * pulseIntensity})`;
+      ctx.lineWidth = 12;
+      ctx.shadowBlur = 20;
+      ctx.shadowColor = glowColor;
+      ctx.beginPath();
+      
+      for (let i = 0; i < waveformHistory.length; i++) {
+        const x = startX + i;
+        const y = waveformHistory[i];
+        
+        if (i === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
+      }
+      ctx.stroke();
+      
+      // Draw mid glow
+      ctx.strokeStyle = `rgba(0, 255, 136, ${0.4 * pulseIntensity})`;
       ctx.lineWidth = 6;
-      ctx.shadowBlur = 10;
+      ctx.shadowBlur = 15;
       ctx.shadowColor = glowColor;
       ctx.beginPath();
       
@@ -204,8 +231,8 @@ if (ecgContainer) {
       
       // Draw main waveform line
       ctx.strokeStyle = waveformColor;
-      ctx.lineWidth = 2;
-      ctx.shadowBlur = 15;
+      ctx.lineWidth = 2.5;
+      ctx.shadowBlur = 20;
       ctx.shadowColor = waveformColor;
       ctx.beginPath();
       
@@ -225,16 +252,28 @@ if (ecgContainer) {
     // Draw scan lines
     drawScanLines();
     
-    // Draw heart rate display
-    ctx.shadowBlur = 0;
+    // Draw heart rate display with glow
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = waveformColor;
     ctx.fillStyle = waveformColor;
-    ctx.font = 'bold 24px monospace';
-    ctx.fillText(`${heartRate} BPM`, 20, 40);
+    ctx.font = 'bold 28px monospace';
+    ctx.fillText(`${heartRate} BPM`, 20, 45);
+    
+    // Draw pulsing indicator dot
+    ctx.beginPath();
+    ctx.arc(width - 30, 30, 5 + pulseIntensity * 3, 0, Math.PI * 2);
+    ctx.fillStyle = waveformColor;
+    ctx.shadowBlur = 10;
+    ctx.fill();
     
     // Draw "ECG MONITOR" label
+    ctx.shadowBlur = 5;
     ctx.font = '14px monospace';
     ctx.fillStyle = 'rgba(0, 255, 136, 0.7)';
     ctx.fillText('ECG MONITOR', 20, height - 20);
+    
+    // Draw timestamp
+    ctx.fillText(`T: ${time.toFixed(1)}s`, width - 120, height - 20);
   }
   
   // Start animation
