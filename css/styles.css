@@ -661,7 +661,7 @@ body::before {
   bottom: 0;
   background: linear-gradient(135deg, rgba(0, 174, 255, 0.03), rgba(0, 255, 136, 0.03), rgba(0, 174, 255, 0.03));
   background-size: 400% 400%;
-  animation: gradient-flow 15s ease infinite;
+  animation: gradient-flow 20s ease infinite;
   pointer-events: none;
   z-index: -1;
 }
