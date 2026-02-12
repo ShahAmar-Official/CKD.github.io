@@ -1134,11 +1134,6 @@ input, textarea {
   transition: color 0.3s ease;
 }
 
-.contact-form input:focus + label,
-.contact-form textarea:focus + label {
-  color: var(--accent);
-}
-
 /* Required field indicator */
 .contact-form label::after {
   content: ' *';

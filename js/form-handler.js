@@ -1,4 +1,6 @@
 // Form submission handler for contact form
+const CONTACT_EMAIL = 'itsshahamar@duck.com';
+
 class FormHandler {
   constructor() {
     this.form = document.querySelector('.contact-form');
@@ -47,7 +49,7 @@ class FormHandler {
       }
     } catch (error) {
       console.error('Form submission error:', error);
-      this.showNotification('Sorry, there was an error sending your message. Please try again or contact us directly at itsshahamar@duck.com', 'error');
+      this.showNotification(`Sorry, there was an error sending your message. Please try again or contact us directly at ${CONTACT_EMAIL}`, 'error');
     } finally {
       submitButton.disabled = false;
       submitButton.textContent = originalText;
