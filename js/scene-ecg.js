@@ -12,9 +12,8 @@ if (ecgContainer) {
   // Set canvas resolution
   function resizeCanvas() {
     const rect = ecgContainer.getBoundingClientRect();
-    canvas.width = rect.width * window.devicePixelRatio;
-    canvas.height = rect.height * window.devicePixelRatio;
-    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    canvas.width = rect.width;
+    canvas.height = rect.height;
     return { width: rect.width, height: rect.height };
   }
   
@@ -23,19 +22,20 @@ if (ecgContainer) {
   // ECG parameters
   const heartRate = 72; // BPM
   const cycleDuration = 60 / heartRate; // seconds per beat
-  const sweepSpeed = 250; // pixels per second
   const gridSize = 20; // pixels per grid square
   const waveformColor = '#00ff88';
   const glowColor = 'rgba(0, 255, 136, 0.6)';
   const backgroundColor = '#0a0d12';
   const gridColor = 'rgba(0, 255, 136, 0.12)';
-  const HISTORY_BUFFER_MULTIPLIER = 1.5; // Extra buffer for smooth scrolling
   
   // Waveform history buffer
-  let historyLength = Math.ceil(width * HISTORY_BUFFER_MULTIPLIER);
-  let waveformHistory = new Array(historyLength).fill(height / 2);
-  let sweepX = 0;
+  let waveformHistory = [];
   let time = 0;
+  
+  // Initialize history with baseline values
+  for (let i = 0; i < width; i++) {
+    waveformHistory.push(height / 2);
+  }
   
   // Generate medically accurate PQRST waveform
   function generateECGValue(t) {
@@ -162,16 +162,14 @@ if (ecgContainer) {
     lastTime = currentTime;
     time += deltaTime;
     
-    // Update sweep position
-    sweepX += sweepSpeed * deltaTime;
-    if (sweepX >= width) {
-      sweepX = 0;
-    }
-    
-    // Generate new waveform value
+    // Generate new waveform value and add to history
     const currentValue = generateECGValue(time);
-    waveformHistory.shift();
     waveformHistory.push(currentValue);
+    
+    // Keep only the width of the canvas
+    if (waveformHistory.length > width) {
+      waveformHistory.shift();
+    }
     
     // Clear canvas
     ctx.fillStyle = backgroundColor;
@@ -181,56 +179,45 @@ if (ecgContainer) {
     drawGrid();
     
     // Draw waveform with glow effect
-    const startIdx = Math.floor(sweepX);
-    
-    // Draw glow (phosphor afterglow effect)
-    ctx.strokeStyle = glowColor;
-    ctx.lineWidth = 6;
-    ctx.shadowBlur = 10;
-    ctx.shadowColor = glowColor;
-    ctx.beginPath();
-    
-    for (let i = 0; i < width; i++) {
-      const historyIdx = (waveformHistory.length - width + i + startIdx) % waveformHistory.length;
-      const x = i;
-      const y = waveformHistory[historyIdx];
+    if (waveformHistory.length > 1) {
+      // Draw glow (phosphor afterglow effect)
+      ctx.strokeStyle = glowColor;
+      ctx.lineWidth = 6;
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = glowColor;
+      ctx.beginPath();
       
-      if (i === 0) {
-        ctx.moveTo(x, y);
-      } else {
-        ctx.lineTo(x, y);
+      for (let i = 0; i < waveformHistory.length; i++) {
+        const x = (width - waveformHistory.length) + i;
+        const y = waveformHistory[i];
+        
+        if (i === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
       }
-    }
-    ctx.stroke();
-    
-    // Draw main waveform line
-    ctx.strokeStyle = waveformColor;
-    ctx.lineWidth = 2;
-    ctx.shadowBlur = 15;
-    ctx.shadowColor = waveformColor;
-    ctx.beginPath();
-    
-    for (let i = 0; i < width; i++) {
-      const historyIdx = (waveformHistory.length - width + i + startIdx) % waveformHistory.length;
-      const x = i;
-      const y = waveformHistory[historyIdx];
+      ctx.stroke();
       
-      if (i === 0) {
-        ctx.moveTo(x, y);
-      } else {
-        ctx.lineTo(x, y);
+      // Draw main waveform line
+      ctx.strokeStyle = waveformColor;
+      ctx.lineWidth = 2;
+      ctx.shadowBlur = 15;
+      ctx.shadowColor = waveformColor;
+      ctx.beginPath();
+      
+      for (let i = 0; i < waveformHistory.length; i++) {
+        const x = (width - waveformHistory.length) + i;
+        const y = waveformHistory[i];
+        
+        if (i === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
       }
+      ctx.stroke();
     }
-    ctx.stroke();
-    
-    // Draw sweep line (current drawing position)
-    ctx.shadowBlur = 0;
-    ctx.strokeStyle = 'rgba(0, 255, 136, 0.3)';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(sweepX, 0);
-    ctx.lineTo(sweepX, height);
-    ctx.stroke();
     
     // Draw scan lines
     drawScanLines();
@@ -255,7 +242,10 @@ if (ecgContainer) {
     const size = resizeCanvas();
     width = size.width;
     height = size.height;
-    historyLength = Math.ceil(width * HISTORY_BUFFER_MULTIPLIER);
-    waveformHistory = new Array(historyLength).fill(height / 2);
+    // Reinitialize history buffer with new width
+    waveformHistory = [];
+    for (let i = 0; i < width; i++) {
+      waveformHistory.push(height / 2);
+    }
   });
 }
