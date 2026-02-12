@@ -550,19 +550,9 @@ body {
   }
 }
 
-/* 3D Parallax Effect for Hero */
+/* 3D Parallax Effect for Hero - Removed to fix scroll issues */
 .hero-text {
   transform-style: preserve-3d;
-  animation: float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px) translateZ(0);
-  }
-  50% {
-    transform: translateY(-10px) translateZ(10px);
-  }
 }
 
 .hero-visual {
@@ -645,20 +635,6 @@ body::before {
 /* 3D perspective for page sections */
 .content, .page-hero {
   transform-style: preserve-3d;
-}
-
-/* Floating animation for canvas containers */
-.canvas-wrap {
-  animation: gentle-float 8s ease-in-out infinite;
-}
-
-@keyframes gentle-float {
-  0%, 100% {
-    transform: translateY(0) translateZ(0);
-  }
-  50% {
-    transform: translateY(-8px) translateZ(5px);
-  }
 }
 
 /* 3D effect on data table rows */
@@ -785,7 +761,19 @@ main {
   details,
   .timeline li,
   main,
-  body::before {
+  body::before,
+  .hero h1,
+  .page-hero h1,
+  .section-title h2,
+  .card,
+  .team-card,
+  .metric,
+  .chart-card,
+  .logo,
+  .scroll-progress-bar,
+  .lead,
+  .button::after,
+  .metric-value {
     animation: none !important;
   }
   
@@ -801,6 +789,219 @@ main {
   .timeline li:hover {
     transform: none !important;
   }
+  
+  .card::after,
+  .team-card::after,
+  .chart-card::after {
+    display: none !important;
+  }
+}
+
+/* Holographic Scanline Animation */
+@keyframes scanline-move {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+/* Neon Glow Pulse Effect */
+@keyframes neon-pulse {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(0, 174, 255, 0.8),
+                 0 0 20px rgba(0, 174, 255, 0.6),
+                 0 0 30px rgba(0, 174, 255, 0.4);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(0, 174, 255, 1),
+                 0 0 30px rgba(0, 174, 255, 0.8),
+                 0 0 40px rgba(0, 174, 255, 0.6);
+  }
+}
+
+/* Holographic Border Effect */
+@keyframes holographic-border {
+  0% {
+    border-color: rgba(0, 174, 255, 0.3);
+    box-shadow: 0 0 10px rgba(0, 174, 255, 0.3);
+  }
+  33% {
+    border-color: rgba(0, 255, 136, 0.3);
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+  }
+  66% {
+    border-color: rgba(255, 0, 255, 0.3);
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+  }
+  100% {
+    border-color: rgba(0, 174, 255, 0.3);
+    box-shadow: 0 0 10px rgba(0, 174, 255, 0.3);
+  }
+}
+
+/* Apply neon pulse to main headings */
+.hero h1,
+.page-hero h1,
+.section-title h2 {
+  animation: neon-pulse 3s ease-in-out infinite;
+}
+
+/* Holographic effect on cards */
+.card,
+.team-card,
+.metric,
+.chart-card {
+  animation: holographic-border 6s ease-in-out infinite;
+}
+
+/* Cyber Grid Background Effect */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(0, 174, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 174, 255, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Futuristic Data Glitch Effect */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+.logo {
+  animation: glitch 5s infinite;
+  animation-timing-function: steps(10);
+}
+
+/* Futuristic Progress Bar Glow */
+.scroll-progress-bar {
+  animation: progress-glow 2s ease-in-out infinite;
+}
+
+@keyframes progress-glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(0, 174, 255, 0.8),
+                0 0 20px rgba(0, 174, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.8),
+                0 0 30px rgba(0, 255, 136, 0.5);
+  }
+}
+
+/* Holographic Text Effect */
+@keyframes holographic-text {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.lead {
+  background: linear-gradient(90deg, 
+    var(--muted), 
+    rgba(0, 174, 255, 0.8), 
+    rgba(0, 255, 136, 0.8), 
+    var(--muted));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: holographic-text 8s linear infinite;
+}
+
+/* Futuristic Button Scan Effect */
+@keyframes button-scan {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 200%;
+  }
+}
+
+.button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.3), 
+    transparent);
+  animation: button-scan 3s linear infinite;
+}
+
+/* Digital Clock/Metric Display Effect */
+@keyframes digital-flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+.metric-value {
+  text-shadow: 0 0 10px rgba(0, 174, 255, 0.8);
+  animation: digital-flicker 0.1s infinite;
+}
+
+/* Cyber Corner Accents */
+.card::after,
+.team-card::after,
+.chart-card::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  border-top: 2px solid rgba(0, 255, 136, 0.6);
+  border-right: 2px solid rgba(0, 255, 136, 0.6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover::after,
+.team-card:hover::after,
+.chart-card:hover::after {
+  opacity: 1;
 }
 
 /* Scroll Progress Bar */

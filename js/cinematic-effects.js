@@ -183,27 +183,87 @@ class LoadingScreen {
   }
 }
 
-// Parallax Scrolling Effect
-class ParallaxEffect {
+// Holographic Scan Line Effect
+class HolographicScanLine {
   constructor() {
-    this.elements = document.querySelectorAll('.hero, .hero-visual, .canvas-wrap');
+    this.scanLine = document.createElement('div');
+    this.scanLine.className = 'holographic-scanline';
+    this.scanLine.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.8), transparent);
+      box-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+      pointer-events: none;
+      z-index: 9998;
+      animation: scanline-move 4s linear infinite;
+    `;
+    document.body.appendChild(this.scanLine);
+  }
+}
+
+// Data Stream Animation Effect
+class DataStreamEffect {
+  constructor() {
+    this.canvas = document.createElement('canvas');
+    this.ctx = this.canvas.getContext('2d');
+    this.canvas.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0.15;
+    `;
+    document.body.insertBefore(this.canvas, document.body.firstChild);
+    
+    this.streams = [];
+    this.resize();
     this.init();
-    window.addEventListener('scroll', () => this.update());
+    this.animate();
+    
+    window.addEventListener('resize', () => this.resize());
+  }
+  
+  resize() {
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
   }
   
   init() {
-    this.elements.forEach(el => {
-      el.style.transition = 'transform 0.1s ease-out';
-    });
+    const streamCount = Math.floor(this.canvas.width / 30);
+    for (let i = 0; i < streamCount; i++) {
+      this.streams.push({
+        x: Math.random() * this.canvas.width,
+        y: Math.random() * this.canvas.height,
+        speed: Math.random() * 3 + 2,
+        chars: '01',
+        length: Math.random() * 20 + 10
+      });
+    }
   }
   
-  update() {
-    const scrollY = window.pageYOffset;
+  animate() {
+    requestAnimationFrame(() => this.animate());
+    this.ctx.fillStyle = 'rgba(11, 12, 16, 0.05)';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     
-    this.elements.forEach((el, index) => {
-      const speed = 0.5 + (index * 0.1);
-      const offset = scrollY * speed * 0.1;
-      el.style.transform = `translateY(${offset}px)`;
+    this.ctx.font = '14px monospace';
+    this.streams.forEach(stream => {
+      const char = stream.chars[Math.floor(Math.random() * stream.chars.length)];
+      const opacity = Math.random() * 0.5 + 0.5;
+      this.ctx.fillStyle = `rgba(0, 255, 136, ${opacity})`;
+      this.ctx.fillText(char, stream.x, stream.y);
+      
+      stream.y += stream.speed;
+      if (stream.y > this.canvas.height) {
+        stream.y = 0;
+        stream.x = Math.random() * this.canvas.width;
+      }
     });
   }
 }
@@ -222,7 +282,8 @@ function initCinematicEffects() {
   if (!prefersReducedMotion) {
     new LoadingScreen();
     new ParticleSystem();
-    new ParallaxEffect();
+    new DataStreamEffect();
+    new HolographicScanLine();
   }
   
   new CursorTilt();
