@@ -29,9 +29,10 @@ if (ecgContainer) {
   const glowColor = 'rgba(0, 255, 136, 0.6)';
   const backgroundColor = '#0a0d12';
   const gridColor = 'rgba(0, 255, 136, 0.12)';
+  const HISTORY_BUFFER_MULTIPLIER = 1.5; // Extra buffer for smooth scrolling
   
   // Waveform history buffer
-  let historyLength = Math.ceil(width * 1.5);
+  let historyLength = Math.ceil(width * HISTORY_BUFFER_MULTIPLIER);
   let waveformHistory = new Array(historyLength).fill(height / 2);
   let sweepX = 0;
   let time = 0;
@@ -254,7 +255,7 @@ if (ecgContainer) {
     const size = resizeCanvas();
     width = size.width;
     height = size.height;
-    historyLength = Math.ceil(width * 1.5);
+    historyLength = Math.ceil(width * HISTORY_BUFFER_MULTIPLIER);
     waveformHistory = new Array(historyLength).fill(height / 2);
   });
 }
