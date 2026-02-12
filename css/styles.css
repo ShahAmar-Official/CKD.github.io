@@ -973,13 +973,13 @@ main {
     opacity: 1;
   }
   50% {
-    opacity: 0.95;
+    opacity: 0.98;
   }
 }
 
 .metric-value {
   text-shadow: 0 0 10px rgba(0, 174, 255, 0.8);
-  animation: digital-flicker 0.1s infinite;
+  animation: digital-flicker 2s infinite;
 }
 
 /* Cyber Corner Accents */
