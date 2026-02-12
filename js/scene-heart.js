@@ -16,7 +16,7 @@ if (heartContainer) {
   scene.add(light2);
 
   const loader = new THREE.GLTFLoader();
-  loader.load("assets/heart.glb", (gltf) => {
+  loader.load("assets/realistic_human_heart.glb", (gltf) => {
     const heart = gltf.scene;
     heart.scale.set(1.1, 1.1, 1.1);
     heart.position.set(0, -0.2, 0);
