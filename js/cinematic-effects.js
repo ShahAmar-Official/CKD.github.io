@@ -157,28 +157,7 @@ class ScrollProgress {
   }
 }
 
-// Back to Top Button
-class BackToTop {
-  constructor() {
-    this.button = document.createElement('button');
-    this.button.className = 'back-to-top';
-    this.button.innerHTML = '↑';
-    this.button.setAttribute('aria-label', 'Back to top');
-    document.body.appendChild(this.button);
-    
-    this.button.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-    
-    window.addEventListener('scroll', () => {
-      if (window.pageYOffset > 300) {
-        this.button.classList.add('visible');
-      } else {
-        this.button.classList.remove('visible');
-      }
-    });
-  }
-}
+
 
 // Loading Screen
 class LoadingScreen {
@@ -248,5 +227,4 @@ function initCinematicEffects() {
   
   new CursorTilt();
   new ScrollProgress();
-  new BackToTop();
 }
