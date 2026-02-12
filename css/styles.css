@@ -536,3 +536,9 @@ html {
 body {
   animation: page-fade-in 0.5s ease-in;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    animation: none;
+  }
+}

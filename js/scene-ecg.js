@@ -180,6 +180,9 @@ if (ecgContainer) {
     
     // Draw waveform with glow effect
     if (waveformHistory.length > 1) {
+      // Calculate starting x position to ensure non-negative coordinates
+      const startX = Math.max(0, width - waveformHistory.length);
+      
       // Draw glow (phosphor afterglow effect)
       ctx.strokeStyle = glowColor;
       ctx.lineWidth = 6;
@@ -188,7 +191,7 @@ if (ecgContainer) {
       ctx.beginPath();
       
       for (let i = 0; i < waveformHistory.length; i++) {
-        const x = (width - waveformHistory.length) + i;
+        const x = startX + i;
         const y = waveformHistory[i];
         
         if (i === 0) {
@@ -207,7 +210,7 @@ if (ecgContainer) {
       ctx.beginPath();
       
       for (let i = 0; i < waveformHistory.length; i++) {
-        const x = (width - waveformHistory.length) + i;
+        const x = startX + i;
         const y = waveformHistory[i];
         
         if (i === 0) {
