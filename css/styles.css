@@ -14,6 +14,8 @@ body {
   background: radial-gradient(1200px 800px at 20% -10%, #102033, #0b0c10);
   color: var(--fg);
   line-height: 1.6;
+  perspective: 1000px;
+  transform-style: preserve-3d;
 }
 
 .skip-link {
@@ -284,9 +286,11 @@ body {
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 24px;
-  transition: all 0.4s ease;
+  transition: all 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
+  transform-style: preserve-3d;
+  transform: perspective(1000px) translateZ(0);
 }
 
 .card::before, .team-card::before {
@@ -303,9 +307,9 @@ body {
 }
 
 .card:hover, .team-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0, 174, 255, 0.2);
-  border-color: rgba(0, 174, 255, 0.3);
+  transform: perspective(1000px) translateY(-12px) translateZ(20px) rotateX(2deg);
+  box-shadow: 0 20px 60px rgba(0, 174, 255, 0.3);
+  border-color: rgba(0, 174, 255, 0.5);
 }
 
 .card:hover::before, .team-card:hover::before {
@@ -329,6 +333,9 @@ body {
   border-radius: 14px;
   padding: 16px;
   text-align: center;
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+  transform: perspective(1000px) translateZ(0);
 }
 .metric-value { font-size: 2rem; font-weight: 700; color: var(--accent); }
 .metric-label { color: var(--muted); }
@@ -522,9 +529,9 @@ html {
 }
 
 .metric:hover {
-  transform: scale(1.05);
+  transform: perspective(1000px) scale(1.08) translateZ(15px) rotateY(2deg);
   border-color: rgba(0, 174, 255, 0.4);
-  box-shadow: 0 8px 25px rgba(0, 174, 255, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 174, 255, 0.25);
 }
 
 /* Page load animation */
@@ -540,5 +547,283 @@ body {
 @media (prefers-reduced-motion: reduce) {
   body {
     animation: none;
+  }
+}
+
+/* 3D Parallax Effect for Hero */
+.hero-text {
+  transform-style: preserve-3d;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) translateZ(0);
+  }
+  50% {
+    transform: translateY(-10px) translateZ(10px);
+  }
+}
+
+/* 3D Rotating Border Effect */
+@keyframes rotate-border {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.hero-visual::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #00aeff, #00ff88, #00aeff);
+  border-radius: 22px;
+  z-index: -1;
+  animation: rotate-border 4s linear infinite;
+  opacity: 0.3;
+}
+
+.hero-visual {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+/* 3D Flip Animation for Team Cards */
+.team-card {
+  transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.team-card:hover {
+  transform: perspective(1000px) rotateY(5deg) translateZ(30px);
+}
+
+/* Staggered entrance animation for grids */
+.highlights .card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.highlights .card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.highlights .card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.team-grid .team-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.team-grid .team-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.team-grid .team-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* 3D depth effect on buttons */
+.button {
+  transform-style: preserve-3d;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.button:hover {
+  transform: perspective(1000px) translateY(-5px) translateZ(20px) scale(1.05);
+  box-shadow: 0 10px 40px rgba(0, 174, 255, 0.6);
+}
+
+/* Animated gradient background */
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 174, 255, 0.03), rgba(0, 255, 136, 0.03), rgba(0, 174, 255, 0.03));
+  background-size: 400% 400%;
+  animation: gradient-flow 15s ease infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* 3D perspective for page sections */
+.content, .page-hero {
+  transform-style: preserve-3d;
+}
+
+/* Floating animation for canvas containers */
+.canvas-wrap {
+  animation: gentle-float 8s ease-in-out infinite;
+}
+
+@keyframes gentle-float {
+  0%, 100% {
+    transform: translateY(0) translateZ(0);
+  }
+  50% {
+    transform: translateY(-8px) translateZ(5px);
+  }
+}
+
+/* 3D effect on data table rows */
+.data-table tr {
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+}
+
+.data-table tr:hover {
+  transform: perspective(1000px) translateZ(10px) scale(1.02);
+  background: rgba(0, 174, 255, 0.05);
+}
+
+/* Details/FAQ 3D expand effect */
+details {
+  transform-style: preserve-3d;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+details[open] {
+  transform: perspective(1000px) translateZ(10px);
+  box-shadow: 0 8px 25px rgba(0, 174, 255, 0.2);
+  border-color: rgba(0, 174, 255, 0.3);
+}
+
+details summary {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+details summary:hover {
+  color: var(--accent);
+  transform: translateX(5px);
+}
+
+/* Chart cards 3D depth */
+.chart-card {
+  transform-style: preserve-3d;
+  transition: all 0.4s ease;
+}
+
+.chart-card:hover {
+  transform: perspective(1000px) translateZ(15px) rotateX(2deg);
+  box-shadow: 0 15px 45px rgba(0, 174, 255, 0.25);
+  border-color: rgba(0, 174, 255, 0.4);
+}
+
+/* Form inputs 3D focus effect */
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  transform: perspective(1000px) translateZ(5px);
+  box-shadow: 0 5px 20px rgba(0, 174, 255, 0.3);
+}
+
+input, textarea {
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+}
+
+/* Navigation 3D depth on scroll */
+.nav {
+  transform-style: preserve-3d;
+  transition: all 0.3s ease;
+}
+
+/* Timeline items 3D effect */
+.timeline li {
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+  padding: 12px;
+  margin-bottom: 8px;
+  background: rgba(17, 20, 26, 0.5);
+  border-radius: 8px;
+  border-left: 3px solid transparent;
+}
+
+.timeline li:hover {
+  transform: perspective(1000px) translateX(10px) translateZ(10px);
+  border-left-color: var(--accent);
+  background: rgba(0, 174, 255, 0.05);
+  box-shadow: 0 5px 20px rgba(0, 174, 255, 0.15);
+}
+
+/* Logo 3D pulse animation */
+@keyframes logo-pulse-3d {
+  0%, 100% {
+    transform: scale(1) translateZ(0);
+  }
+  50% {
+    transform: scale(1.05) translateZ(5px);
+  }
+}
+
+.nav .logo {
+  transform-style: preserve-3d;
+  animation: logo-pulse-3d 3s ease-in-out infinite;
+}
+
+/* Page transition effect */
+@keyframes page-enter-3d {
+  from {
+    opacity: 0;
+    transform: perspective(1000px) translateZ(-100px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(1000px) translateZ(0) scale(1);
+  }
+}
+
+main {
+  animation: page-enter-3d 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-style: preserve-3d;
+}
+
+/* Respect reduced motion preferences for all new animations */
+@media (prefers-reduced-motion: reduce) {
+  .hero-text,
+  .canvas-wrap,
+  .nav .logo,
+  .team-card,
+  .button,
+  details,
+  .timeline li,
+  main,
+  body::before,
+  .hero-visual::before {
+    animation: none !important;
+  }
+  
+  .card:hover,
+  .team-card:hover,
+  .metric:hover,
+  .button:hover,
+  .chart-card:hover,
+  .data-table tr:hover,
+  details[open],
+  input:focus,
+  textarea:focus,
+  .timeline li:hover {
+    transform: none !important;
   }
 }
