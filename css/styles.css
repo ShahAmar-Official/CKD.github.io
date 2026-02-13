@@ -9,6 +9,11 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 body {
   font-family: "Inter", system-ui, sans-serif;
   background: radial-gradient(1200px 800px at 20% -10%, #102033, #0b0c10);
@@ -16,6 +21,7 @@ body {
   line-height: 1.6;
   perspective: 1000px;
   transform-style: preserve-3d;
+  overflow-x: hidden;
 }
 
 .skip-link {
@@ -402,6 +408,7 @@ details {
   display: grid;
   gap: 12px;
   max-width: 480px;
+  width: 100%;
 }
 
 input, textarea {
@@ -410,6 +417,16 @@ input, textarea {
   padding: 12px;
   color: var(--fg);
   border-radius: 10px;
+  width: 100%;
+  font-size: 16px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0, 174, 255, 0.1);
 }
 
 .footer { padding: 30px 8vw 50px; color: var(--muted); }
@@ -475,11 +492,28 @@ input, textarea {
   .hero h1 {
     font-size: 2.2rem;
   }
+  
+  .contact-form {
+    max-width: 100%;
+    padding: 0 5vw;
+  }
+  
+  .content {
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
 }
 
 /* Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Account for sticky header */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 /* Loading animation */
@@ -1080,7 +1114,7 @@ main {
 /* Cinematic Section Transitions */
 section {
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 section::before {
@@ -1107,7 +1141,7 @@ section::before {
 /* Enhanced Hero Cinematic Effect */
 .hero {
   position: relative;
-  overflow: visible;
+  overflow-x: hidden;
 }
 
 .hero::after {
