@@ -10,51 +10,32 @@ class FormHandler {
   }
   
   init() {
-    // Remove the default onsubmit handler
-    this.form.removeAttribute('onsubmit');
+    // Add client-side validation before form submission
     this.form.addEventListener('submit', (e) => this.handleSubmit(e));
   }
   
-  async handleSubmit(e) {
-    e.preventDefault();
-    
+  handleSubmit(e) {
     const formData = new FormData(this.form);
     const submitButton = this.form.querySelector('button[type="submit"]');
     const originalText = submitButton.textContent;
     
-    // Validate form
+    // Validate form before submission
     if (!this.validateForm(formData)) {
-      return;
+      e.preventDefault();
+      // Ensure button is re-enabled if validation fails
+      submitButton.disabled = false;
+      submitButton.textContent = originalText;
+      submitButton.classList.remove('loading');
+      return false;
     }
     
-    // Disable button and show loading state
+    // Show loading state (FormSubmit will handle actual submission and redirect)
     submitButton.disabled = true;
     submitButton.textContent = 'Sending...';
     submitButton.classList.add('loading');
     
-    try {
-      // Submit to Web3Forms
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: formData
-      });
-      
-      const data = await response.json();
-      
-      if (data.success) {
-        this.showNotification('Thank you! Your message has been sent successfully. We will get back to you soon.', 'success');
-        this.form.reset();
-      } else {
-        throw new Error(data.message || 'Submission failed');
-      }
-    } catch (error) {
-      console.error('Form submission error:', error);
-      this.showNotification(`Sorry, there was an error sending your message. Please try again or contact us directly at ${CONTACT_EMAIL}`, 'error');
-    } finally {
-      submitButton.disabled = false;
-      submitButton.textContent = originalText;
-      submitButton.classList.remove('loading');
-    }
+    // Form will submit normally to FormSubmit.co which will show their success page
+    return true;
   }
   
   validateForm(formData) {
