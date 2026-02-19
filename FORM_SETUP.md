@@ -1,65 +1,71 @@
 # Form Setup Instructions
 
-## Web3Forms Integration
+## FormSubmit.co Integration
 
-The contact form on this website uses [Web3Forms](https://web3forms.com/) to send form submissions to your email.
+The contact form on this website uses [FormSubmit.co](https://formsubmit.co/) to send form submissions to your email. This service is completely free and doesn't require API keys or registration.
 
-### How to Get Your API Key
+### How It Works
 
-1. Visit [Web3Forms](https://web3forms.com/)
-2. Click "Get Started for Free"
-3. Enter your email address: `itsshahamar@duck.com`
-4. You'll receive an email with your Access Key
-5. Copy the Access Key from the email
+1. The form is configured to submit to: `https://formsubmit.co/itsshahamar@duck.com`
+2. When a user submits the form, FormSubmit.co sends the data to your email
+3. On first submission, FormSubmit will send a confirmation email to activate the endpoint
+4. After activation, all form submissions will be forwarded to your email
 
-### How to Configure the Form
+### First-Time Setup
 
-1. Open `contact.html` in a text editor
-2. Find the line with `YOUR_WEB3FORMS_ACCESS_KEY`:
-   ```html
-   <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
-   ```
-3. Replace `YOUR_WEB3FORMS_ACCESS_KEY` with your actual Access Key
-4. Save the file
-5. Commit and push the changes
+The first time someone submits the contact form:
 
-### Example
+1. FormSubmit.co will send a confirmation email to `itsshahamar@duck.com`
+2. Open the email and click the confirmation link
+3. After confirmation, the form will work automatically for all future submissions
 
-```html
-<input type="hidden" name="access_key" value="abc123def-4567-89gh-ijkl-mnopqrstuvwx">
-```
+### Form Features
 
-### Alternative: FormSubmit.co
+The form includes the following configurations:
 
-If you prefer to use FormSubmit.co instead of Web3Forms:
+- **_subject**: Sets a custom subject line for the emails
+- **_captcha**: Disabled for simpler user experience (set to "false")
+- **_template**: Uses "table" format for clean email presentation
+- **_next**: Redirects users back to the contact page with a success message
+- **_honey**: Honeypot field to prevent spam bots (hidden from users)
 
-1. In `contact.html`, change the form action to:
-   ```html
-   <form action="https://formsubmit.co/itsshahamar@duck.com" method="POST" class="contact-form">
-   ```
-2. Remove the Web3Forms access_key hidden input
-3. Add these FormSubmit hidden inputs:
-   ```html
-   <input type="hidden" name="_subject" value="New Contact Form Submission from CKD ECG Website">
-   <input type="hidden" name="_captcha" value="false">
-   <input type="hidden" name="_template" value="table">
-   ```
-4. Update the form-handler.js to not use the Web3Forms API endpoint
+### Testing the Form
 
-## Testing the Form
+After the initial confirmation:
 
-After setting up your API key:
-
-1. Deploy your changes to GitHub Pages
-2. Visit the contact page
-3. Fill out and submit the form
+1. Visit the contact page at: https://shahamar-official.github.io/CKD.github.io/contact.html
+2. Fill out and submit the form
+3. You'll be redirected back to the page with a success message
 4. Check your email inbox at itsshahamar@duck.com
 5. You should receive the form submission
 
-## Contact Methods
+### Alternative Contact Methods
 
-The contact page now displays:
-- Email: itsshahamar@duck.com
-- WhatsApp: +92 313 9424265
+The contact page also displays:
+- Email: itsshahamar@duck.com (clickable mailto link)
+- WhatsApp: +92 313 9424265 (clickable link)
 
-Both are clickable links that allow visitors to contact you directly.
+Both are direct contact options if the form doesn't work.
+
+### Customization Options
+
+To customize the form behavior, you can modify these hidden fields in `contact.html`:
+
+```html
+<input type="hidden" name="_subject" value="Your custom subject">
+<input type="hidden" name="_captcha" value="true"> <!-- Enable captcha -->
+<input type="hidden" name="_template" value="box"> <!-- Different template -->
+```
+
+For more options, visit: https://formsubmit.co/
+
+### Alternative: Web3Forms
+
+If you prefer to use Web3Forms instead:
+
+1. Visit [Web3Forms](https://web3forms.com/)
+2. Get your free API key
+3. Update the form in `contact.html` to use the Web3Forms endpoint
+4. Update `form-handler.js` to handle the API submission
+
+See the previous version of this file in git history for Web3Forms implementation details.

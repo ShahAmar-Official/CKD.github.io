@@ -10,51 +10,41 @@ class FormHandler {
   }
   
   init() {
-    // Remove the default onsubmit handler
-    this.form.removeAttribute('onsubmit');
+    // Check if user returned from FormSubmit
+    this.checkSubmissionStatus();
+    
+    // Add client-side validation before form submission
     this.form.addEventListener('submit', (e) => this.handleSubmit(e));
   }
   
-  async handleSubmit(e) {
-    e.preventDefault();
-    
+  checkSubmissionStatus() {
+    // Check URL for submission status
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('submitted') === 'true') {
+      this.showNotification('Thank you! Your message has been sent successfully. We will get back to you soon.', 'success');
+      // Clean up URL
+      const cleanUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, cleanUrl);
+    }
+  }
+  
+  handleSubmit(e) {
     const formData = new FormData(this.form);
-    const submitButton = this.form.querySelector('button[type="submit"]');
-    const originalText = submitButton.textContent;
     
-    // Validate form
+    // Validate form before submission
     if (!this.validateForm(formData)) {
-      return;
+      e.preventDefault();
+      return false;
     }
     
-    // Disable button and show loading state
+    // Show loading state (FormSubmit will handle actual submission)
+    const submitButton = this.form.querySelector('button[type="submit"]');
     submitButton.disabled = true;
     submitButton.textContent = 'Sending...';
     submitButton.classList.add('loading');
     
-    try {
-      // Submit to Web3Forms
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: formData
-      });
-      
-      const data = await response.json();
-      
-      if (data.success) {
-        this.showNotification('Thank you! Your message has been sent successfully. We will get back to you soon.', 'success');
-        this.form.reset();
-      } else {
-        throw new Error(data.message || 'Submission failed');
-      }
-    } catch (error) {
-      console.error('Form submission error:', error);
-      this.showNotification(`Sorry, there was an error sending your message. Please try again or contact us directly at ${CONTACT_EMAIL}`, 'error');
-    } finally {
-      submitButton.disabled = false;
-      submitButton.textContent = originalText;
-      submitButton.classList.remove('loading');
-    }
+    // Form will submit normally to FormSubmit.co
+    return true;
   }
   
   validateForm(formData) {
