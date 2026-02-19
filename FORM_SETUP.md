@@ -4,14 +4,15 @@
 
 The contact form on this website uses [FormSubmit.co](https://formsubmit.co/) to send form submissions to your email. This service is completely free and doesn't require API keys or registration.
 
-### How It Works
+## How It Works
 
 1. The form is configured to submit to: `https://formsubmit.co/itsshahamar@duck.com`
 2. When a user submits the form, FormSubmit.co sends the data to your email
 3. On first submission, FormSubmit will send a confirmation email to activate the endpoint
 4. After activation, all form submissions will be forwarded to your email
+5. After submission, users will see FormSubmit's success page
 
-### First-Time Setup
+## First-Time Setup
 
 The first time someone submits the contact form:
 
@@ -19,27 +20,28 @@ The first time someone submits the contact form:
 2. Open the email and click the confirmation link
 3. After confirmation, the form will work automatically for all future submissions
 
-### Form Features
+## Form Features
 
-The form includes the following configurations:
+The form includes the following security and configuration features:
 
 - **_subject**: Sets a custom subject line for the emails
-- **_captcha**: Disabled for simpler user experience (set to "false")
+- **_captcha**: Enabled (set to "true") to prevent spam submissions with reCAPTCHA
 - **_template**: Uses "table" format for clean email presentation
-- **_next**: Redirects users back to the contact page with a success message
 - **_honey**: Honeypot field to prevent spam bots (hidden from users)
+- **Client-side validation**: JavaScript validation for name (min 2 chars), email format, and message (min 10 chars)
 
-### Testing the Form
+## Testing the Form
 
 After the initial confirmation:
 
 1. Visit the contact page at: https://shahamar-official.github.io/CKD.github.io/contact.html
 2. Fill out and submit the form
-3. You'll be redirected back to the page with a success message
-4. Check your email inbox at itsshahamar@duck.com
-5. You should receive the form submission
+3. Complete the reCAPTCHA verification
+4. You'll be redirected to FormSubmit's success page
+5. Check your email inbox at itsshahamar@duck.com
+6. You should receive the form submission
 
-### Alternative Contact Methods
+## Alternative Contact Methods
 
 The contact page also displays:
 - Email: itsshahamar@duck.com (clickable mailto link)
@@ -47,19 +49,22 @@ The contact page also displays:
 
 Both are direct contact options if the form doesn't work.
 
-### Customization Options
+## Customization Options
 
 To customize the form behavior, you can modify these hidden fields in `contact.html`:
 
 ```html
 <input type="hidden" name="_subject" value="Your custom subject">
-<input type="hidden" name="_captcha" value="true"> <!-- Enable captcha -->
+<input type="hidden" name="_captcha" value="false"> <!-- Disable captcha (not recommended) -->
 <input type="hidden" name="_template" value="box"> <!-- Different template -->
+<input type="hidden" name="_next" value="https://yourdomain.com/thanks.html"> <!-- Custom redirect -->
 ```
+
+**Note**: If you add a `_next` redirect URL, make sure it uses HTTPS and points to a page on your own domain to avoid security issues.
 
 For more options, visit: https://formsubmit.co/
 
-### Alternative: Web3Forms
+## Alternative: Web3Forms
 
 If you prefer to use Web3Forms instead:
 

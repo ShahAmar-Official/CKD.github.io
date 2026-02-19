@@ -10,40 +10,31 @@ class FormHandler {
   }
   
   init() {
-    // Check if user returned from FormSubmit
-    this.checkSubmissionStatus();
-    
     // Add client-side validation before form submission
     this.form.addEventListener('submit', (e) => this.handleSubmit(e));
   }
   
-  checkSubmissionStatus() {
-    // Check URL for submission status
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('submitted') === 'true') {
-      this.showNotification('Thank you! Your message has been sent successfully. We will get back to you soon.', 'success');
-      // Clean up URL
-      const cleanUrl = window.location.pathname;
-      window.history.replaceState({}, document.title, cleanUrl);
-    }
-  }
-  
   handleSubmit(e) {
     const formData = new FormData(this.form);
+    const submitButton = this.form.querySelector('button[type="submit"]');
+    const originalText = submitButton.textContent;
     
     // Validate form before submission
     if (!this.validateForm(formData)) {
       e.preventDefault();
+      // Ensure button is re-enabled if validation fails
+      submitButton.disabled = false;
+      submitButton.textContent = originalText;
+      submitButton.classList.remove('loading');
       return false;
     }
     
-    // Show loading state (FormSubmit will handle actual submission)
-    const submitButton = this.form.querySelector('button[type="submit"]');
+    // Show loading state (FormSubmit will handle actual submission and redirect)
     submitButton.disabled = true;
     submitButton.textContent = 'Sending...';
     submitButton.classList.add('loading');
     
-    // Form will submit normally to FormSubmit.co
+    // Form will submit normally to FormSubmit.co which will show their success page
     return true;
   }
   
